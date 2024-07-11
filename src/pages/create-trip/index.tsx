@@ -1,16 +1,26 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { FormEvent, useState } from "react"
 import { useNavigate } from "react-router-dom"
 import { InviteGuestsModal } from "./invite-guest-modal"
 import { ConfirmTripModal } from "./confirm-trip-modal"
-import { DestinationAndDatePage } from "../steps/destination-and-date-step"
-import { InviteGuestsStep } from "../steps/invite-guests-step"
+import { DestinationAndDatePage } from "./steps/destination-and-date-step"
+import { InviteGuestsStep } from "./steps/invite-guests-step"
+import { DateRange } from "react-day-picker"
+import { api } from "../../lib/axios"
   
   export function CreateTripPage() {
     const navigate = useNavigate()
     const [isGuestInputOpen, setGuestInputOpen] = useState(false)
     const [isGuestModalOpen, setGuestModalOpen] = useState(false)
-    const [emailsToInvite, setEmailsToInvite] = useState(['johndoe@gmail.com.br'])
     const [isConfirmTripModalOpen, setConfirmTripModalOpen] = useState(false)
+
+    const [destination, setDestination] = useState('')
+    const [ownerName, setOwnerName] = useState('')
+    const [ownerEmail, setOwnerEmail] = useState('')
+    const [eventStartAndEndDates, setEventStartAndEndDates] = useState<DateRange | undefined>()
+
+
+    const [emailsToInvite, setEmailsToInvite] = useState(['johndoe@gmail.com.br'])
 
     function openGuestInput() {
       setGuestInputOpen(true)
@@ -56,9 +66,42 @@ import { InviteGuestsStep } from "../steps/invite-guests-step"
       setConfirmTripModalOpen(false)
     }
 
-    function createTrip(event: FormEvent<HTMLFormElement>) {
+    async function createTrip(event: FormEvent<HTMLFormElement>) {
         event.preventDefault()
-        navigate('/trips/:tripId')
+
+        console.log(destination)
+        console.log(ownerName)
+        console.log(ownerEmail)
+        console.log(eventStartAndEndDates)
+        console.log(emailsToInvite)
+        if(!destination){
+          return
+        }
+        if(!eventStartAndEndDates?.from || !eventStartAndEndDates?.to){
+          return
+        }
+
+        if(emailsToInvite.length === 0){
+          return
+        }
+
+        if(!ownerName || !ownerEmail){
+          return
+        }
+
+        const response = await api.post('/trips',  {
+          destination, 
+          starts_at: eventStartAndEndDates.from, 
+          ends_at: eventStartAndEndDates.to,
+          emails_to_invite: emailsToInvite,
+          owner_name: ownerName,
+          owner_email: ownerEmail
+        })
+
+        const {tripId} = response.data
+        
+        navigate(`/trips/${tripId}`)
+        console.log(tripId)
     }
   
     return ( 
@@ -75,6 +118,9 @@ import { InviteGuestsStep } from "../steps/invite-guests-step"
                 closeGuestInput={closeGuestInput}
                 openGuestInput={openGuestInput}
                 isGuestInputOpen={isGuestInputOpen}
+                setDestination={setDestination}
+                eventStartAndEndDates={eventStartAndEndDates}
+                setEventStartAndEndDates={setEventStartAndEndDates}
             />
           {/* Friend's trip */}
           {
@@ -110,6 +156,8 @@ import { InviteGuestsStep } from "../steps/invite-guests-step"
              <ConfirmTripModal 
                 closeConfirmTripModal={closeConfirmTripModal}
                 createTrip={createTrip}
+                setOwnerName={setOwnerName}
+                setOwnerEmail={setOwnerEmail}
             />
 
         )}
