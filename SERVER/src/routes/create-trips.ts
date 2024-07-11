@@ -1,15 +1,11 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { FastifyInstance } from "fastify";
 import { ZodTypeProvider } from "fastify-type-provider-zod";
-import dayjs from "dayjs";
-import localizedFormat from 'dayjs/plugin/localizedFormat'
-import 'dayjs/locale/pt-br'
 import { z } from "zod";
 import { prisma } from "../lib/prisma";
 import nodemailer from 'nodemailer'
 import { getMailClient } from "../lib/mail";
-dayjs.locale('pt-br')
-dayjs.extend(localizedFormat)
+import { dayjs } from "../lib/dayjs";
 
 export async function createTrip(app: FastifyInstance) {
     app.withTypeProvider<ZodTypeProvider>().post('/trips', {
@@ -93,6 +89,7 @@ export async function createTrip(app: FastifyInstance) {
                     <p></p>
                     <p>Caso esteja usando dispotivo móvel, você pode também confirmar a criação da viagem pelas aplicativos:</p>
                     <a href="#">Aplicativo para iphone</a>
+                    <p></p>
                     <a href="#">Aplicativo para Android</a>
                     <p></p>
                     <p>Caso não saiba do que se trata esse email, apenas ignore!</p>
