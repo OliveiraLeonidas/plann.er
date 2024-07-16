@@ -27,9 +27,9 @@ export async function getActivities(app: FastifyInstance) {
 
         })
         
-                if(!trip) {
-                    throw new ClientError('Trip not found.')
-                }
+        if(!trip) {
+            throw new ClientError('Trip not found.')
+        }
 
         //retornar todos os dias que tem atividade
         const differenceInDaysBetweenTripStartAndEnd = dayjs(trip.ends_at).diff(trip.starts_at, 'days')
