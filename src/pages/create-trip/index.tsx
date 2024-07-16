@@ -8,7 +8,8 @@ import { InviteGuestsStep } from "./steps/invite-guests-step"
 import { DateRange } from "react-day-picker"
 import { api } from "../../lib/axios"
   
-  export function CreateTripPage() {
+
+export function CreateTripPage() {
     const navigate = useNavigate()
     const [isGuestInputOpen, setGuestInputOpen] = useState(false)
     const [isGuestModalOpen, setGuestModalOpen] = useState(false)
@@ -20,14 +21,10 @@ import { api } from "../../lib/axios"
     const [eventStartAndEndDates, setEventStartAndEndDates] = useState<DateRange | undefined>()
 
 
-    const [emailsToInvite, setEmailsToInvite] = useState(['johndoe@gmail.com.br'])
+    const [emailsToInvite, setEmailsToInvite] = useState<string[]>([])
 
-    function openGuestInput() {
-      setGuestInputOpen(true)
-    }
-    function closeGuestInput() {
-      setGuestInputOpen(false)
-    }
+    const openGuestInput = () => setGuestInputOpen(true);
+    const closeGuestInput = () => setGuestInputOpen(false); 
 
     function openGuestModal() {
       setGuestModalOpen(true)
@@ -66,6 +63,7 @@ import { api } from "../../lib/axios"
       setConfirmTripModalOpen(false)
     }
 
+
     async function createTrip(event: FormEvent<HTMLFormElement>) {
         event.preventDefault()
 
@@ -103,6 +101,7 @@ import { api } from "../../lib/axios"
         navigate(`/trips/${tripId}`)
         console.log(tripId)
     }
+    
   
     return ( 
       <div className="h-screen flex items-center justify-center bg-pattern bg-no-repeat bg-center">
@@ -113,7 +112,6 @@ import { api } from "../../lib/axios"
           </div>
           <div className="space-y-4">
             
-             {/* icons */}
             <DestinationAndDatePage 
                 closeGuestInput={closeGuestInput}
                 openGuestInput={openGuestInput}
@@ -122,16 +120,13 @@ import { api } from "../../lib/axios"
                 eventStartAndEndDates={eventStartAndEndDates}
                 setEventStartAndEndDates={setEventStartAndEndDates}
             />
-          {/* Friend's trip */}
-          {
-            isGuestInputOpen && (
+
+          { isGuestInputOpen && (
               <InviteGuestsStep
                 emailsToInvite={emailsToInvite}
                 openConfirmTripModal={openConfirmTripModal}
                 openGuestModal={openGuestModal}
-              />
-
-            )
+              />)
           }
 
 
@@ -158,6 +153,9 @@ import { api } from "../../lib/axios"
                 createTrip={createTrip}
                 setOwnerName={setOwnerName}
                 setOwnerEmail={setOwnerEmail}
+                destination={destination}
+                eventStartAndEndDates={eventStartAndEndDates}
+                
             />
 
         )}

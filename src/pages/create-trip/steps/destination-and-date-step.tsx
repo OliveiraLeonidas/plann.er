@@ -5,6 +5,7 @@ import { useState } from "react"
 import { DateRange, DayPicker } from "react-day-picker"
 import "react-day-picker/dist/style.css";
 import { format } from "date-fns";
+import { ptBR } from "date-fns/locale";
 
 interface DestinationAndDatePageProps {
     isGuestInputOpen: boolean
@@ -35,21 +36,21 @@ export function DestinationAndDatePage({
     return setIsDatePickerOpen(false)
   }
     const displayedDate = eventStartAndEndDates && eventStartAndEndDates.from && eventStartAndEndDates.to 
-    ? format(eventStartAndEndDates.from, "d' de ' LLL").concat(' até ').concat(format(eventStartAndEndDates.to, "d' de ' LLL"))
+    ? format(eventStartAndEndDates.from, "d' de ' MMM", {locale: ptBR}).concat(' até ').concat(format(eventStartAndEndDates.to, "d' de ' MMM 'de' yyyy",  {locale: ptBR}))
     : null
     return (
-        <div className="h-16 bg-zinc-900 px-4 rounded-xl flex items-center shadow-shape gap-3">
-          <div className="flex items-center gap-2 flex-1">
+        <div className="h-16 bg-zinc-900 px-3 rounded-xl flex items-center shadow-shape gap-2">
+          <div className="flex items-center gap-2 flex-1 w-full">
                 <MapPin className="size-5 text-zinc-400"/>
                 <input 
                     onChange={event => setDestination(event.target.value)}
                     disabled={isGuestInputOpen} 
                     type="text" 
                     placeholder="Para onde você vai?" 
-                    className="bg-transparent text-md placeholder-zinc-400 outline-none"/>
+                    className="bg-transparent text-md placeholder-zinc-400 w-[80%] outline-none"/>
           </div>
 
-          <button onClick={openDatePicker} disabled={isGuestInputOpen} className="flex items-center gap-2 text-left W-[240px]">
+          <button onClick={openDatePicker} disabled={isGuestInputOpen} className="flex items-center gap-2 text-left W-[200px]">
             <Calendar className="size-5 text-zinc-400"/>
             <span className="text-md text-zinc-400 flex-1">
                   {displayedDate || 'Quando?'}

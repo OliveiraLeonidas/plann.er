@@ -25,7 +25,7 @@ export function InviteGuestsModal({
                     <X className="size-5 text-zinc-400" />
                     </button>
                 </div>
-                <p className="text-sm">
+                <p className="text-sm text-left">
                     Os convidados irão receber e-mails para confirmar a participação na
                     viagem.
                 </p>
