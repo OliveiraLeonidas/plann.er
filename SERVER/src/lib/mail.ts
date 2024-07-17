@@ -5,12 +5,12 @@ export async function getMailClient() {
     const account = await nodemailer.createTestAccount()
 
     const tranporter = nodemailer.createTransport({
-        host: 'smtp.ethereal.email',
-        port: 587,
-        secure: false,
+        host: 'smtp.gmail.com',
+        port: 465,
+        secure: true,
         auth: {
-            user: account.user,
-            pass: account.pass
+            user: 'oliveiraleonidas99@gmail.com',
+            pass: 'app pasword google account'
         }
     })
 

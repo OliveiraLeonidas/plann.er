@@ -7,6 +7,7 @@ import { DestinationAndDatePage } from "./steps/destination-and-date-step"
 import { InviteGuestsStep } from "./steps/invite-guests-step"
 import { DateRange } from "react-day-picker"
 import { api } from "../../lib/axios"
+import { endOfDay } from "date-fns"
   
 
 export function CreateTripPage() {
@@ -90,11 +91,12 @@ export function CreateTripPage() {
         const response = await api.post('/trips',  {
           destination, 
           starts_at: eventStartAndEndDates.from, 
-          ends_at: eventStartAndEndDates.to,
+          ends_at: endOfDay(eventStartAndEndDates.to),
           emails_to_invite: emailsToInvite,
           owner_name: ownerName,
           owner_email: ownerEmail
         })
+        console.log(response.data)
 
         const {tripId} = response.data
         

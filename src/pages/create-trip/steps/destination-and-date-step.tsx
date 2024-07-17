@@ -66,7 +66,7 @@ export function DestinationAndDatePage({
                         <button type="button" onClick={closeDatePicker}><X className="size-5 text-zinc-400"/></button>
                       </div>
                   </div>
-                  <DayPicker mode='range' selected={eventStartAndEndDates} onSelect={setEventStartAndEndDates}/>
+                  <DayPicker disabled={{before: new Date()}} mode='range' selected={eventStartAndEndDates} onSelect={setEventStartAndEndDates}/>
                 </div>
             </div>
           )}

@@ -47,8 +47,7 @@ export function TripDetailsPage() {
             navigate(`/trips/${tripId}`);
             window.location.reload()
         }
-
-
+        
   useEffect(() => {
     api.get(`/trips/${tripId}`).then((response) => setTrip(response.data.trip));
     if (trip?.is_confirmed == false || undefined) {
@@ -63,15 +62,6 @@ export function TripDetailsPage() {
       openParticipantConfirmation();
     }
   }, [location.pathname, tripId, participantId]);
-    
-  useEffect(() => {
-    if (location.pathname == `/trips/${tripId}/confirmation`) {
-      console.log("evento confirmado");
-
-      setIsConfirmationOwner(false);
-    }
-  }, [location.pathname, tripId]);
-
    
   const displayedDate = trip
      ? format(trip.starts_at, "d' de ' LLL")

@@ -5,7 +5,7 @@
 ## # TODO
 
 - [] refatorar roteamento das páginas de dados
-- [] resolver bug das datas na entrada dos dados
+- [x] resolver bug das datas na entrada dos dados
 
 ## Frontend - React Vite
 
